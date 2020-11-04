@@ -41,7 +41,7 @@ public:
 			return false;
 		}
 
-		if(stream->seekFrom(pos, SEEK_SET) < 0) {
+		if(stream->seekFrom(pos, SeekOrigin::Start) < 0) {
 			return false;
 		}
 
