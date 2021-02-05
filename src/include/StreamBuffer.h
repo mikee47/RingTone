@@ -30,7 +30,7 @@ public:
 			streamPos = 0;
 			pos = len = 0;
 		} else {
-			streamPos = stream->seekFrom(0, SEEK_CUR);
+			streamPos = stream->seekFrom(0, SeekOrigin::Current);
 			fill();
 		}
 	}
