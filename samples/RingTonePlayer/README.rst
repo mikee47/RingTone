@@ -28,7 +28,7 @@ The command line to build, flash and open a terminal would be:
 
 .. code-block:: batch
 
-   make -j COM_PORT=COM8 COM_SPEED=115200 COM_PORT_ESPTOOL=COM4 COM_SPEED_ESPTOOL=921600 SPI_MODE=dio SPI_SIZE=4M
+   make -j COM_PORT=COM8 COM_SPEED=115200 COM_PORT_ESPTOOL=COM4 COM_SPEED_ESPTOOL=921600
    make flashinit
    make flash
 
