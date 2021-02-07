@@ -1,4 +1,4 @@
-SPIFF_SIZE=0x40000
+HWCONFIG := spiffs
 GDB_UART_SWAP=1
 ARDUINO_LIBRARIES := \
 	ToneGenerator \
