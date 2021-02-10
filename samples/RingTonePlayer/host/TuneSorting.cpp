@@ -6,14 +6,23 @@
 
 #include <RttlWriter.h>
 #include <Data/Stream/MemoryDataStream.h>
-#include <Data/Stream/HostFileStream.h>
+#include <IFS/Host/FileSystem.h>
+#include <Data/Stream/IFS/FileStream.h>
 #include <HardwareSerial.h>
+
+namespace
+{
+IFS::Host::FileSystem fileSystem;
+}
 
 void dumpTunes()
 {
 	RingTone::RtttlParser parser;
-	if(parser.begin(new HostFileStream("files/tunes.txt"))) {
-		HostFileStream fs("tunes-out-1.txt", eFO_CreateNewAlways | eFO_WriteOnly);
+	auto fs = new IFS::FileStream(&fileSystem);
+	fs->open("files/tunes.txt");
+	if(parser.begin(fs)) {
+		IFS::FileStream fs(&fileSystem);
+		fs.open("tunes-out-1.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
 		RingTone::RtttlWriter writer(fs);
 		writer.addAllTunes(parser);
 		Serial.print("Count = ");
@@ -21,9 +30,12 @@ void dumpTunes()
 		fs.close(); // Ensure all data is flushed before reading again
 
 		// Dump the generated list again: the two files should be identical
-		if(parser.begin(new HostFileStream("tunes-out-1.txt"))) {
-			HostFileStream fs("tunes-out-2.txt", eFO_CreateNewAlways | eFO_WriteOnly);
-			RingTone::RtttlWriter writer(fs);
+
+		fs.open("tunes-out-1.txt");
+		if(parser.begin(&fs)) {
+			IFS::FileStream fs2(&fileSystem);
+			fs2.open("tunes-out-2.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
+			RingTone::RtttlWriter writer(fs2);
 			writer.addAllTunes(parser);
 			Serial.print("Count = ");
 			Serial.println(parser.getIndex());
@@ -42,7 +54,9 @@ void sortTunes()
 	Vector<Tune> tunes;
 
 	RingTone::RtttlParser parser;
-	if(!parser.begin(new HostFileStream("files/tunes.txt"))) {
+	auto fs = new IFS::FileStream(&fileSystem);
+	fs->open("files/tunes.txt");
+	if(!parser.begin(fs)) {
 		return;
 	}
 
@@ -107,14 +121,15 @@ void sortTunes()
 		return i;
 	});
 
-	HostFileStream fs("tunes-sorted.txt", eFO_CreateNewAlways | eFO_WriteOnly);
+	IFS::FileStream fs2(&fileSystem);
+	fs2.open("tunes-sorted.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
 	for(unsigned i = 0; i < tunes.count(); ++i) {
 		auto& tune = tunes[i];
 		if(tune.titles) {
-			fs.print("# ");
-			fs.println(tune.titles);
+			fs2.print("# ");
+			fs2.println(tune.titles);
 		}
-		fs.print(tune.headerString);
-		fs.println(tune.content);
+		fs2.print(tune.headerString);
+		fs2.println(tune.content);
 	}
 }

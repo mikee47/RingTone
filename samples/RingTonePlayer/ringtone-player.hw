@@ -1,0 +1,17 @@
+{
+    "name": "RingTone Player",
+    "base_config": "standard-4m",
+    "partitions": {
+        "fwfs": {
+            "address": "0x100000",
+            "size": "0x40000",
+            "type": "data",
+            "subtype":"fwfs",
+            "filename": "out/fwfs.bin",
+            "build": {
+                "target": "fwfs-build",
+                "config": "fwfs.ini"
+            }
+        }
+    }
+}
