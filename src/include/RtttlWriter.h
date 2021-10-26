@@ -1,3 +1,17 @@
+/****
+ * Sming Framework Project - Open Source framework for high efficiency native ESP8266 development.
+ * Created 2015 by Skurydin Alexey
+ * http://github.com/SmingHub/Sming
+ * All files of the Sming Core are provided under the LGPL v3 license.
+ *
+ * RtttlWriter.h - Support for reading RTTTL files
+ *
+ * RTTTL conversion code based on https://github.com/end2endzone/NonBlockingRTTTL
+ *
+ * @author Sept 2019 mikee47 <mike@sillyhouse.net>
+ *
+ ****/
+
 #pragma once
 
 #include "RtttlParser.h"

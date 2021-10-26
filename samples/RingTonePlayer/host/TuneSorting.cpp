@@ -4,7 +4,7 @@
  * Also demonstrates use of RtttlWriter.
  */
 
-#include <RttlWriter.h>
+#include <RtttlWriter.h>
 #include <Data/Stream/MemoryDataStream.h>
 #include <Data/Stream/HostFileStream.h>
 #include <HardwareSerial.h>
