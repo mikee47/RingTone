@@ -13,19 +13,14 @@
 #pragma once
 
 #include <Data/Stream/DataSourceStream.h>
+#include <memory>
 
 template <unsigned bufSize> class StreamBuffer
 {
 public:
-	~StreamBuffer()
-	{
-		delete stream;
-	}
-
 	void setStream(IDataSourceStream* stream)
 	{
-		delete this->stream;
-		this->stream = stream;
+		this->stream.reset(stream);
 		if(stream == nullptr) {
 			streamPos = 0;
 			pos = len = 0;
@@ -37,7 +32,7 @@ public:
 
 	bool setPos(unsigned pos)
 	{
-		if(stream == nullptr) {
+		if(!stream) {
 			return false;
 		}
 
@@ -84,7 +79,7 @@ private:
 	};
 
 private:
-	IDataSourceStream* stream = nullptr;
+	std::unique_ptr<IDataSourceStream> stream;
 	unsigned streamPos = 0;
 	char data[bufSize];
 	uint8_t pos = 0;
