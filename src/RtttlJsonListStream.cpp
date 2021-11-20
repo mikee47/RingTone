@@ -11,6 +11,7 @@
  ****/
 
 #include "include/RtttlJsonListStream.h"
+#include <debug_progmem.h>
 
 DEFINE_FSTR_LOCAL(jsonOpen, "{\"list\":[");
 DEFINE_FSTR_LOCAL(jsonClose, "]}");

@@ -13,7 +13,7 @@ void dumpTunes()
 {
 	RingTone::RtttlParser parser;
 	if(parser.begin(new HostFileStream("files/tunes.txt"))) {
-		HostFileStream fs("tunes-out-1.txt", eFO_CreateNewAlways | eFO_WriteOnly);
+		HostFileStream fs("tunes-out-1.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
 		RingTone::RtttlWriter writer(fs);
 		writer.addAllTunes(parser);
 		Serial.print("Count = ");
@@ -22,7 +22,7 @@ void dumpTunes()
 
 		// Dump the generated list again: the two files should be identical
 		if(parser.begin(new HostFileStream("tunes-out-1.txt"))) {
-			HostFileStream fs("tunes-out-2.txt", eFO_CreateNewAlways | eFO_WriteOnly);
+			HostFileStream fs("tunes-out-2.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
 			RingTone::RtttlWriter writer(fs);
 			writer.addAllTunes(parser);
 			Serial.print("Count = ");
@@ -107,7 +107,7 @@ void sortTunes()
 		return i;
 	});
 
-	HostFileStream fs("tunes-sorted.txt", eFO_CreateNewAlways | eFO_WriteOnly);
+	HostFileStream fs("tunes-sorted.txt", IFS::File::CreateNewAlways | IFS::File::WriteOnly);
 	for(unsigned i = 0; i < tunes.count(); ++i) {
 		auto& tune = tunes[i];
 		if(tune.titles) {
